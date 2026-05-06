@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8" />
+
+	<title>My Really Cool Map!!</title>
+
+	<script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" />
+
+	<style>
+
+		html, body, #map {
+			margin: 2;
+			height: 75vh;
+			width: 100%;
+			background-color: lightpink; 
+		}
+
+	</style>
+
+</head>
+
+<body>
+	<h1 style="color: rgb(150, 6, 87)", align="center">Library Service Areas in Ottawa</h1>
+	<p style="color: rgb(150, 6, 87);font-family:verdana">This shows you where to go!</p>
+	<p style="color: rgb(150, 6, 87);font-family:verdana">Have you ever wanted to be as cool as a library user? This is your chance!!!!!</p>
+
+
+	<div id="map"></div>
+
+	<script>
+
+		const map = new maplibregl.Map({
+
+			container: 'map',
+			center: [-75.782003, 45.279653],
+			zoom: 9,
+			style: 'map-style.json',
+
+		});
+
+		
+		map.addControl(new maplibregl.NavigationControl());
+		
+	
+		map.on('load', () => {
+			// map.addSource('transit-lines', {
+			// 	type: 'geojson',
+			// 	data: 'current-lines.geo.json',
+			// });
+
+			// map.addSource('transit-stations', {
+			// 	type: 'geojson',
+			// 	data: 'current-stations.geo.json',
+			// });
+
+			map.addSource('library_service_areas', {
+				type: 'geojson',
+				data: 'Ottawa_Public_Library_Service_Areas.geojson',
+			});
+
+			// map.addLayer({
+			// 	id: 'transit-lines',
+			// 	type: 'line',
+			// 	source: 'transit-lines',
+			// 	layout: { 'line-cap': 'round', 'line-join': 'round' },
+			// 	paint: { 'line-color': '#F5276C', 'line-width': 2 },
+			// });
+
+			// map.addLayer({
+			// 	id: 'transit-stations',
+			// 	type: 'circle',
+			// 	source: 'transit-stations',
+			// 	paint: {
+			// 		'circle-radius': 4,
+			// 		'circle-color': '#27F5B0',
+			// 		'circle-stroke-width': 1.5,
+			// 		'circle-stroke-color': '#000000',
+			// 	},
+			// });
+
+			map.addLayer({
+				id: 'library_service_areas',
+				type: 'fill',
+				source: 'library_service_areas',
+				//layout: {},
+				paint: { 'fill-color': '#F5276C', 'fill-opacity': 0.8, 'fill-outline-color': '#000000'}
+			});
+
+			map.addLayer({
+				id: 'library_service_areas',
+				type: 'symbol',
+				source: 'library_service_areas',
+				minzoom : 9,
+				layout: {
+					'text-field': ['get','NAMESF2016'],
+					'text-font': 'Courier New'
+				},
+				paint: stationLabelPaint,
+
+				
+			});
+
+		});
+
+
+	</script>
+
+</body>
+
+</html>
