@@ -24,9 +24,9 @@
 </head>
 
 <body>
-	<h1 style="color: rgb(150, 6, 87)", align="center">Library Service Areas in Ottawa</h1>
-	<p style="color: rgb(150, 6, 87);font-family:verdana">This shows you where to go!</p>
-	<p style="color: rgb(150, 6, 87);font-family:verdana">Have you ever wanted to be as cool as a library user? This is your chance!!!!!</p>
+	<h1 style="color: rgb(150, 6, 87);font-family:'Courier New', Courier, monospace", align="center">Library Service Areas in Ottawa</h1>
+	<p style="color: rgb(150, 6, 87);font-family:'Courier New', Courier, monospace">This shows you where to go!</p>
+	<p style="color: rgb(150, 6, 87);font-family:'Courier New', Courier, monospace">Have you ever wanted to be as cool as a library user? This is your chance!!!!!</p>
 
 
 	<div id="map"></div>
@@ -57,9 +57,16 @@
 			// 	data: 'current-stations.geo.json',
 			// });
 
+
+
 			map.addSource('library_service_areas', {
 				type: 'geojson',
 				data: 'Ottawa_Public_Library_Service_Areas.geojson',
+			});
+
+			map.addSource('libraries', {
+				type: 'geojson',
+				data: 'Ottawa_Public_Library_Locations_2024.geojson'
 			});
 
 			// map.addLayer({
@@ -91,11 +98,22 @@
 			});
 
 			map.addLayer({
-				id: 'library_service_areas_symbols',
+				id: 'libraries',
+				type: 'circle',
+				source: 'libraries',
+				paint: {'circle-radius': 4, 
+						'circle-color': "#ffe3f7", 
+						'circle-stroke-width': 1.5,
+						'circle-stroke-color': '#000000'
+				}
+			});
+
+			map.addLayer({
+				id: 'libraries_symbols',
 				type: 'symbol',
-				source: 'library_service_areas',
+				source: 'libraries',
 				minzoom : 9,
-				layout: {'text-field': '{NAMESE2016}'},
+				layout: {'text-field': '{Name}', 'text-offset': [0, 1.5]},
 				paint: {'text-color': 'rgb(150, 6, 87)'}
 			});
 
